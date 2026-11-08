@@ -67,7 +67,7 @@ for i = 1:numIter
         Vm           = pagemtimes(Pm,"ctranspose",pagemtimes(Um,Pm),"none");
         Vn           = pagemtimes(Pn,"ctranspose",pagemtimes(Un,Pn),"none");
 
-        [V,l]        = mypageeig(pagemldivide(Vn,Vm));
+        [V,l]        = mypageeig(Vn,Vm);
 
         cmp          = l(1,:,:) > l(2,:,:);
         vm           = V(:,1,:);
@@ -89,13 +89,13 @@ end
 
 end
 
-function [V,l] = mypageeig(W)
+function [V,l] = mypageeig(A,B)
 
-V = W;
-l = W(:,1,:);
+V = A;
+l = A(:,1,:);
 
-for f = 1:size(W,3)
-    [V(:,:,f), l(:,:,f)] = eig(W(:,:,f),"vector");
+for f = 1:size(A,3)
+    [V(:,:,f), l(:,:,f)] = eig(A(:,:,f),B(:,:,f),"vector");
 end
 
 end
